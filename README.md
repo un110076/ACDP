@@ -1,2 +1,2 @@
-# ACDP
-Adjoint Code Design Patterns
+# Adjoint Code Design Patterns
+Uwe Naumann (2018)
