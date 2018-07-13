@@ -10,7 +10,7 @@ all : main.exe
 	$(CPPC) $(CPPC_FLAGS) $< -o $@
 
 clean:
-	rm -fr main.exe 
+	rm -fr main.exe html
 
 .PHONY: all clean
 
