@@ -1,2 +1,3 @@
-## Adjoint Code Design Patterns without dco/c++
+## Adjoint Code Design Patterns 
+### Reference Implementation
 Uwe Naumann (2018)

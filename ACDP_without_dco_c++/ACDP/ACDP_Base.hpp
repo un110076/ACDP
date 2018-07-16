@@ -3,7 +3,7 @@
 #include<vector>
 
 // association of values and adjoints by address
-typedef pair<double,double> AT;
+typedef std::pair<double,double> AT;
 
 struct ACDP_AdjointBase {
   bool linked;
