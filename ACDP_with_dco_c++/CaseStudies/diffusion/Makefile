@@ -1,4 +1,6 @@
 EIGEN_DIR=$(HOME)/Software/Eigen
+DCO_DIR=$(HOME)/Software/dco
+
 TARGETS=$(addsuffix .exe, $(basename $(wildcard *.cpp)))
 CPPC=g++
 CPPC_FLAGS=-std=c++14 -O3 -Wall -Wextra -pedantic -march=native
@@ -17,7 +19,7 @@ all: f.exe fd.exe
 	cd SymbolicAdjointNLSEigenSparseLU&&$(MAKE);
 
 %.exe : %.cpp $(DEPS)
-	$(CPPC) $(CPPC_FLAGS) -I$(EIGEN_DIR) $< -o $@
+	$(CPPC) $(CPPC_FLAGS) -I$(EIGEN_DIR) -I$(DCO_DIR) $< -o $@
 
 clean :
 	cd Plain&&$(MAKE) clean;

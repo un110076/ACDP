@@ -76,7 +76,7 @@ inline void euler(const int& m, const int& ncs, const DCO_B& yl, const DCO_B& yr
         e->register_input(y(i));
         e->register_output(y(i));
       }
-      e->link();
+      e->link_target();
       tape->register_acdp(e);
       e->evaluate_augmented_primal();
   }

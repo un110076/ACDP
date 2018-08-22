@@ -79,7 +79,7 @@ struct ACDP_SymbolicAdjointNLSEigenSparseLU : ACDP_AdjointBase {
       solver.analyzePattern(A); 
       solver.factorize(A); 
       r=solver.solve(r);
-      for (int i=0;i<ns;i++) x(i)-=r(i);
+      x-=r;
       target->evaluate_primal();
     }
     for (int i=0;i<ns;i++) output_value(i)=x(i);

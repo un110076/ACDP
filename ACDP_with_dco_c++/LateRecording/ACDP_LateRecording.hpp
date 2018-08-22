@@ -20,7 +20,7 @@ struct ACDP_LateRecording : ACDP_AdjointBase {
     ACDP_ArgCP* tgt // target code
   ) : ACDP_AdjointBase(context_tape), n(n), m(m), tgt(tgt) {}
 
-  void link() {
+  void link_target() {
     if (!tgt->linked) {
       for (int i=0;i<n;i++)
         tgt->register_input(input(i));

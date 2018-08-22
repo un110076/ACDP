@@ -4,8 +4,8 @@ case study: diffusion
 author: Uwe Naumann (2018)
 */
 
-// #include "ACDP_StaticEvolutionRecursiveBinomialBisection.hpp"
-#include "ACDP_StaticEvolutionRecursiveBisection.hpp"
+#include "ACDP_StaticEvolutionRecursiveBinomialBisection.hpp"
+// #include "ACDP_StaticEvolutionRecursiveBisection.hpp"
 
 #include "../diffusion.hpp"
 

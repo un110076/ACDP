@@ -19,7 +19,7 @@ inline void newton(
   VT<DCO_A> r(VT<DCO_A>::Zero(n));
   f(m,y,yl,yr,y_prev,r);
   while (r.norm()>eps) {
-    dfdy(m,y,yl,yr,A);
+    dfdy(m,y,A);
     ACDP_SymbolicAdjointLSEigenDenseCholesky::DMT<DCO_A> A_dense(A); 
     ACDP_SymbolicAdjointLSEigenDenseCholesky *e= new ACDP_SymbolicAdjointLSEigenDenseCholesky(context_tape,n);
     e->register_A(A_dense);

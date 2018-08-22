@@ -12,14 +12,6 @@ using namespace std;
 
 #include "Eigen/SparseCholesky"
 
-// diffusivity as function of time, space and state
-template <typename T>
-inline T c(const T& y) { return sin(y); }
-
-// derivative of diffusivity wrt. state
-template <typename T>
-inline T dcdy(const T& y) { return cos(y); }
-
 template <typename T, int N=Eigen::Dynamic>
 using VT=Eigen::Matrix<T,N,1>;
 
@@ -34,41 +26,32 @@ inline void g(
 ) {
   int n=y.size();
   double dt_rec=(n+1)*(n+1);
-  r(0)=c(y(0))*dt_rec*(yl-2*y(0)+y(1));
+  r(0)=dt_rec*(yl-2*y(0)+y(1));
   for (int i=1;i<n-1;i++)
-    r(i)=c(y(i))*dt_rec*(y(i-1)-2*y(i)+y(i+1));
-  r(n-1)=c(y(n-1))*dt_rec*(y(n-2)-2*y(n-1)+yr);
+    r(i)=dt_rec*(y(i-1)-2*y(i)+y(i+1));
+  r(n-1)=dt_rec*(y(n-2)-2*y(n-1)+yr);
 }
 
 // tangent of rhs of ode
 template <typename T, int N=Eigen::Dynamic, typename PT=double>
-inline void g_t(
-    const VT<T,N>& y, const VT<T,N>& y_t, const PT& yl, const PT& yr,
-    VT<T,N>& r_t
-) {
-  int n=y.size(), dt_rec=(n+1)*(n+1);
-  r_t(0)=dcdy(y(0))*dt_rec*(yl-2*y(0)+y(1))*y_t(0)
-        +c(y(0))*dt_rec*(-2*y_t(0)+y_t(1));
+inline void g_t(const VT<T,N>& y_t, VT<T,N>& r_t) {
+  int n=y_t.size(), dt_rec=(n+1)*(n+1);
+  r_t(0)=dt_rec*(-2*y_t(0)+y_t(1));
   for (int i=1;i<n-1;i++)
-    r_t(i)=dcdy(y(i))*dt_rec*(y(i-1)-2*y(i)+y(i+1))*y_t(i)
-          +c(y(i))*dt_rec*(y_t(i-1)-2*y_t(i)+y_t(i+1));
-  r_t(n-1)=dcdy(y(n-1))*dt_rec*(y(n-2)-2*y(n-1)+yr)*y_t(n-1)
-        +c(y(n-1))*dt_rec*(y_t(n-2)-2*y_t(n-1));
+    r_t(i)=dt_rec*(y_t(i-1)-2*y_t(i)+y_t(i+1));
+  r_t(n-1)=dt_rec*(y_t(n-2)-2*y_t(n-1));
 }
 
 // Jacobian of rhs of ode
 template <typename T, int N=Eigen::Dynamic, typename PT=double>
-inline void dgdy(
-    const VT<T,N>& y, const PT& yl, const PT& yr,
-    MT<T>& A
-) {
-  int n=y.size();
+inline void dgdy(MT<T>& A) {
+  int n=A.cols();
   VT<T,N> y_t(n),r_t(n);
   std::vector<Eigen::Triplet<T>> entries;
   entries.reserve(2*n-1);
   for (int i=0;i<n;i++) {
     y_t=VT<T,N>::Unit(n,i);
-    g_t(y,y_t,yl,yr,r_t);
+    g_t(y_t,r_t);
     if (i>0) entries.push_back(Eigen::Triplet<T>(i,i-1,r_t(i-1)));
     entries.push_back(Eigen::Triplet<T>(i,i,r_t(i)));
   }
@@ -87,12 +70,9 @@ inline void f(
 
 // Jacobian of residual of nls wrt. state
 template <typename T, int N=Eigen::Dynamic, typename PT=double>
-inline void dfdy(
-    const int& m, const VT<T,N>& y, const PT& yl, const PT& yr,
-    MT<T>& A
-) {
+inline void dfdy(const int& m, const VT<T,N>& y, MT<T>& A) {
   int n=y.size();
-  dgdy(y,yl,yr,A);
+  dgdy(A);
   A/=-m; 
   MT<T> B(n,n); B.setIdentity(); A+=B;
 }
@@ -110,7 +90,7 @@ inline void newton(
   f(m,y,yl,yr,y_prev,r);
   Eigen::SimplicialLLT<MT<T>> solver;
   while (r.norm()>eps) {
-    dfdy(m,y,yl,yr,A);
+    dfdy(m,y,A);
     solver.compute(A);
     r=solver.solve(r);
     y-=r;

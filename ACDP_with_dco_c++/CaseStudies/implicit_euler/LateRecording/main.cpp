@@ -81,12 +81,13 @@ void implicit_euler(
     );
     e->register_input(x);
     for (int k=0;k<n;k++) e->register_input(p[k]);
-    DCO_A y; // avoid i/o aliasing
-    e->register_output(y);
-    e->link();
+    // DCO_A y; // avoid i/o aliasing
+    // e->register_output(y);
+    e->register_output(x);
+    e->link_target();
     context_tape->register_acdp(e);
     e->evaluate_augmented_primal();
-    x=y;
+    // x=y;
   }
 }
 
