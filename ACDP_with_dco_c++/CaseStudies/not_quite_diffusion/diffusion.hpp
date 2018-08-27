@@ -65,7 +65,7 @@ inline void dgdy(
   int n=y.size();
   VT<T,N> y_t(n),r_t(n);
   std::vector<Eigen::Triplet<T>> entries;
-  entries.reserve(2*n-1);
+  entries.reserve(3*n-2);
   for (int i=0;i<n;i++) {
     y_t=VT<T,N>::Unit(n,i);
     g_t(y,y_t,yl,yr,r_t);
