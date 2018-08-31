@@ -1,12 +1,12 @@
 /*
 Adjoint Code Design Patterns with dco/c++
-case study: diffusion
+case study: Burgers equation
 author: Uwe Naumann (2018)
 */
 
 #include "ACDP_StaticEvolutionRecomputeAll.hpp"
 
-#include "../diffusion.hpp"
+#include "burgers.hpp"
 
 struct StaticEvolutionRecomputeAll_Target : ACDP_EvolutionStep {
 

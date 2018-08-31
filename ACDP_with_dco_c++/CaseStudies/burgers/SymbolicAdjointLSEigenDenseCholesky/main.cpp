@@ -6,7 +6,7 @@ author: Uwe Naumann (2018)
 
 #include "ACDP_SymbolicAdjointLSEigenDenseCholesky.hpp"
 
-#include "../diffusion.hpp"
+#include "burgers.hpp"
 
 inline void newton(
     DCO_TT* context_tape,
@@ -17,7 +17,7 @@ inline void newton(
   MT<DCO_A> A(n,n); A.reserve(3*n-2);
   VT<DCO_A> r(VT<DCO_A>::Zero(n));
   f(m,d,y_prev,y,r);
-  while (r.norm()>eps) {
+  do {
     dfdy(m,d,y,A);
     ACDP_SymbolicAdjointLSEigenDenseCholesky::DMT<DCO_A> A_dense(A); 
     ACDP_SymbolicAdjointLSEigenDenseCholesky *e= new ACDP_SymbolicAdjointLSEigenDenseCholesky(context_tape,n);
@@ -27,7 +27,7 @@ inline void newton(
     e->evaluate_augmented_primal();
     y-=r;
     f(m,d,y_prev,y,r);
-  }
+  } while (r.norm()>eps);
 }
 
 inline void euler(

@@ -1,13 +1,13 @@
 /*
 Adjoint Code Design Patterns with dco/c++
-case study: diffusion
+case study: Burgers equation
 author: Uwe Naumann (2018)
 */
 
 #include "ACDP_StaticEvolutionRecursiveBinomialBisection.hpp"
 // #include "ACDP_StaticEvolutionRecursiveBisection.hpp"
 
-#include "../diffusion.hpp"
+#include "burgers.hpp"
 
 struct StaticEvolutionRecursiveBisection_Target : ACDP_EvolutionStep {
 

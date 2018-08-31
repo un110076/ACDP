@@ -1,12 +1,12 @@
 /*
 Adjoint Code Design Pattern with dco/c++
-case study: diffusion
+case study: Burgers equation
 author: Uwe Naumann
 */
 
 #include "ACDP_SymbolicAdjointNLSEigenSparseLU.hpp"
 
-#include "../diffusion.hpp"
+#include "burgers.hpp"
 
 template <typename T, int N=Eigen::Dynamic>
 using VT=ACDP_SymbolicAdjointNLSEigenSparseLU::VT<T,N>;

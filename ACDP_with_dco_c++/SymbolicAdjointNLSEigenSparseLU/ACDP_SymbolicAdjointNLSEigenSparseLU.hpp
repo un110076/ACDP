@@ -64,7 +64,7 @@ struct ACDP_SymbolicAdjointNLSEigenSparseLU : ACDP_AdjointBase {
     for (int i=0;i<ns+np;i++) target->input_value(i)=input_value(i);
     target->evaluate_primal();
     for (int j=0;j<np;j++) p_t(j)=p(j);
-    while (r.norm()>eps) {
+    do {
       std::vector<Eigen::Triplet<DCO_B>> entries;
       for (int i=0;i<ns;i++) {
         for (int j=0;j<ns;j++) x_t(j)=x(j);
@@ -73,7 +73,7 @@ struct ACDP_SymbolicAdjointNLSEigenSparseLU : ACDP_AdjointBase {
         for (int j=0;j<ns;j++) 
           if (dco::derivative(r_t(j))!=0) 
             entries.push_back(Eigen::Triplet<DCO_B>(j,i,dco::derivative(r_t(j))));
-      }
+      } 
       A.setFromTriplets(entries.begin(),entries.end());
       Eigen::SparseLU<MT<DCO_B>> solver;
       solver.analyzePattern(A); 
@@ -81,7 +81,7 @@ struct ACDP_SymbolicAdjointNLSEigenSparseLU : ACDP_AdjointBase {
       r=solver.solve(r);
       x-=r;
       target->evaluate_primal();
-    }
+    } while (r.norm()>eps);
     for (int i=0;i<ns;i++) output_value(i)=x(i);
   }
 

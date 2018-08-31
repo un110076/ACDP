@@ -27,10 +27,10 @@ A_FLT f(const A_FLT &x, const A_FLT &x_prev, const A_FLT &p, const int &i, const
 template<typename A_FLT, typename P_FLT>
 void newton(A_FLT &x, const A_FLT &x_prev, const A_FLT& p, const int &i, const P_FLT& dt, const P_FLT &eps) {
   A_FLT r=f(x,x_prev,p,i,dt);
-  while (fabs(r)>eps) {
+  do {
     x=x-r/(1-dt*dgdx(x,p,i*dt));
     r=f(x,x_prev,p,i,dt);
-  }
+  } while (fabs(r)>eps); 
 }
 
 template<typename A_FLT, typename P_FLT>

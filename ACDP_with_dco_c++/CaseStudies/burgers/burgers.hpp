@@ -1,10 +1,12 @@
 /*
 Adjoint Code Design Patterns with dco/c++
-case study: diffusion
+case study: Burgers equation
 author: Uwe Naumann (2018)
 */
 
 #pragma once
+
+const double pi=3.141592653589793, d=1e-2;
 
 #include <vector>
 #include <cmath>
@@ -93,14 +95,14 @@ inline void newton(
   VT<T,N> r(VT<T,N>::Zero(n));
   f(m,d,y_prev,y,r);
   Eigen::SparseLU<MT<T>> solver;
-  while (r.norm()>eps) {
+  do {
     dfdy(m,d,y,A);
     solver.analyzePattern(A);
     solver.factorize(A);
     r=solver.solve(r);
     y-=r;
     f(m,d,y_prev,y,r);
-  }
+  } while (r.norm()>eps);
 }
 
 // implicit Euler integration

@@ -1,12 +1,12 @@
 /*
 Adjoint Code Design Patterns with dco/c++
-case study: diffusion
+case study: Burgers equation
 author: Uwe Naumann (2018)
 */
 
 #include "ACDP_EarlyForwardFiniteDifferences.hpp"
 
-#include "../diffusion.hpp"
+#include "burgers.hpp"
 
 struct EarlyForwardFiniteDifferences_Target : ACDP_PrimalBase<DCO_B> {
 

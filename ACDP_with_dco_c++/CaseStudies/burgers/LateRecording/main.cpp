@@ -1,12 +1,12 @@
 /*
 Adjoint Code Design Patterns with dco/c++
-case study: diffusion
+case study: Burgers equation
 author: Uwe Naumann (2018)
 */
 
 #include "ACDP_LateRecording.hpp"
 
-#include "../diffusion.hpp"
+#include "burgers.hpp"
 
 struct LateRecording_Target : ACDP_ArgCP {
 
