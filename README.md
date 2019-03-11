@@ -1,2 +1,2 @@
 # Adjoint Code Design Patterns
-Uwe Naumann (2018)
+Uwe Naumann (2019)
