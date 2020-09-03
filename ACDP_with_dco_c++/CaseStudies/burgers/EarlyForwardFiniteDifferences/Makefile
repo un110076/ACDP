@@ -2,8 +2,8 @@ CPPC=g++
 CPPC_FLAGS=-std=c++14 -O3 -march=native -Wall -Wextra -pedantic -DDCO_DISABLE_AUTO_WARNING
 DEPS=../burgers.hpp
 BASE_DIR=../../..
-EIGEN_DIR=$(HOME)/Software/Eigen
-DCO_DIR=$(BASE_DIR)/Base
+EIGEN_DIR=/usr/include/eigen3/
+DCO_DIR=$(HOME)/Software/dco
 PATTERN_DIR=$(BASE_DIR)/EarlyForwardFiniteDifferences
 
 all : main.exe 

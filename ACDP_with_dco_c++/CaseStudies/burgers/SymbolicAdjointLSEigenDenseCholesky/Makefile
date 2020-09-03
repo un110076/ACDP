@@ -3,7 +3,7 @@ CPPC_FLAGS=-std=c++14 -O3 -march=native -Wall -Wextra -pedantic -DDCO_DISABLE_AU
 DEPS=../burgers.hpp
 BASE_DIR=../../..
 EIGEN_DIR=$(HOME)/Software/Eigen
-DCO_DIR=$(BASE_DIR)/Base
+DCO_DIR=$(HOME)/Software/dco
 PATTERN_DIR=$(BASE_DIR)/SymbolicAdjointLSEigenDenseCholesky
 
 all : main.exe 
@@ -11,7 +11,7 @@ all : main.exe
 	diff main.out ../Plain/ga1s.out
 
 %.exe : %.cpp $(DEPS)
-	$(CPPC) $(CPPC_FLAGS) -I$(DCO_DIR) -I$(EIGEN_DIR) -I$(PATTERN_DIR) -I.. $< -o $@
+	$(CPPC) $(CPPC_FLAGS) -I$(DCO_DIR) -I$(EIGEN_DIR) -I$(PATTERN_DIR) -I$(BASE_DIR)/Base -I.. $< -o $@
 
 clean:
 	rm -fr main.exe main.out
